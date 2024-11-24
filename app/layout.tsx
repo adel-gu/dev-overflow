@@ -8,6 +8,8 @@ import {
 } from '@clerk/nextjs';
 import { Metadata } from 'next';
 import { Inter, Space_Grotesk as SpaceGrotesk } from 'next/font/google';
+import { ThemeProvider } from '@/context/Theme';
+
 import './globals.css';
 
 const inter = Inter({
@@ -37,26 +39,27 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <ClerkProvider
-      appearance={{
-        elements: {
-          formButtonPrimary: 'primary-gradient',
-          footerAction: 'primary-text-gradient hover:text-primary-500',
-        },
-      }}
-    >
-      <html lang="en">
-        <body className={`${inter.variable} ${spaceGrotesk.variable}`}>
-          <SignedOut>
-            <SignInButton />
-          </SignedOut>
-          <SignedIn>
-            <UserButton />
-          </SignedIn>
-          <h1 className="h1-bold">Hi there</h1>
-          {children}
-        </body>
-      </html>
-    </ClerkProvider>
+    <html lang="en">
+      <body className={`${inter.variable} ${spaceGrotesk.variable}`}>
+        <ClerkProvider
+          appearance={{
+            elements: {
+              formButtonPrimary: 'primary-gradient',
+              footerAction: 'primary-text-gradient hover:text-primary-500',
+            },
+          }}
+        >
+          <ThemeProvider>
+            <SignedOut>
+              <SignInButton />
+            </SignedOut>
+            <SignedIn>
+              <UserButton />
+            </SignedIn>
+            {children}
+          </ThemeProvider>
+        </ClerkProvider>
+      </body>
+    </html>
   );
 }
