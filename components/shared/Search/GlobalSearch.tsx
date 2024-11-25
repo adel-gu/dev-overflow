@@ -22,8 +22,7 @@ const GlobalSearch = () => {
           placeholder="Search anything globally..."
           value=""
           onChange={() => {}}
-          className="paragraph-regular no-focus placeholder
-      background-light800_darkgradient border-none shadow-none outline-none"
+          className="paragraph-regular no-focus placeholder bg-transparent border-none shadow-none outline-none"
         />
       </div>
     </div>
