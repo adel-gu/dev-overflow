@@ -13,6 +13,10 @@ body {
     @apply flex justify-center items-center;
   }
 
+  .flex-col-center {
+    @apply flex flex-col justify-center items-center;
+  }
+
   .flex-between {
     @apply flex justify-between items-center;
   }
