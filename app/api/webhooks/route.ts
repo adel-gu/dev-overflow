@@ -6,7 +6,7 @@ import { NextResponse } from 'next/server';
 
 export async function POST(req: Request) {
   const SIGNING_SECRET = process.env.SIGNING_SECRET;
-
+  console.log('SIGNINSECTET: )))))))))>', SIGNING_SECRET);
   if (!SIGNING_SECRET) {
     throw new Error(
       'Error: Please add SIGNING_SECRET from Clerk Dashboard to .env or .env.local',
