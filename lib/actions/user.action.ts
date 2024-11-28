@@ -38,8 +38,9 @@ export async function createUser(params: CreateUserParams) {
 export async function updateUser(params: UpdateUserParams) {
   try {
     connectToDatabase();
+
     const { clerkId, updateData, path } = params;
-    await User.findByIdAndUpdate({ clerkId }, updateData, { new: true });
+    await User.findOneAndUpdate({ clerkId }, updateData, { new: true });
 
     revalidatePath(path);
   } catch (error) {
