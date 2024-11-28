@@ -7,7 +7,6 @@ import { NextResponse } from 'next/server';
 export async function POST(req: Request) {
   const SIGNING_SECRET = process.env.SIGNING_SECRET;
 
-  console.log('SIGNINSECTET: )))))))))>', SIGNING_SECRET);
   if (!SIGNING_SECRET) {
     throw new Error(
       'Error: Please add SIGNING_SECRET from Clerk Dashboard to .env or .env.local',
@@ -54,6 +53,8 @@ export async function POST(req: Request) {
   // For this guide, log payload to console
   const { id } = evt.data;
   const eventType = evt.type;
+
+  console.log('Event type: ))))))))>', eventType);
 
   if (eventType === 'user.created') {
     const { username, first_name, last_name, image_url, email_addresses } =
