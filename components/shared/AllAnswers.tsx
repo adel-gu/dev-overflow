@@ -23,11 +23,11 @@ const AllAnswers = async ({
   const { answers } = await getAnswers({ questionId: JSON.parse(questionId) });
 
   return (
-    <div className="mt-11">
+    <div className="mt-11 mb-8">
       <div className="flex items-center justify-between">
         <h3 className="primary-text-gradient">{totalAnswers} Answers</h3>
 
-        <Filter filters={AnswerFilters} />
+        {answers.length > 0 && <Filter filters={AnswerFilters} />}
       </div>
 
       <div>
