@@ -48,3 +48,26 @@ export const formatNumber = (num: number): string => {
   }
   return num.toString(); // Return as is if less than 1,000
 };
+
+export const formatJoinDate = (joinedDate: string): string => {
+  try {
+    const date = new Date(joinedDate);
+
+    if (isNaN(date.getTime())) {
+      throw new Error('Invalid date string');
+    }
+
+    const options: Intl.DateTimeFormatOptions = {
+      month: 'long',
+      year: 'numeric',
+    };
+    const formattedDate = new Intl.DateTimeFormat('en-US', options).format(
+      date,
+    );
+
+    return `Joined ${formattedDate}`;
+  } catch (error) {
+    console.error('Error formatting date:', error);
+    return 'Invalid date';
+  }
+};
