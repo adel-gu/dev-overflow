@@ -1,13 +1,15 @@
+'use client';
 import React from 'react';
 import { sidebarLinks } from '@/constants';
 import NavLink from '../navbar/NavLink';
 import { Button } from '@/components/ui/button';
-import { SignedOut, SignedIn, SignOutButton } from '@clerk/nextjs';
+import { SignedOut, SignedIn, SignOutButton, useAuth } from '@clerk/nextjs';
 import Link from 'next/link';
 import Image from 'next/image';
 import ROUTES from '@/constants/routes';
 
 const LeftSideBar = () => {
+  const { userId } = useAuth();
   return (
     <section
       className="background-light900_dark200 light-border
@@ -16,11 +18,16 @@ const LeftSideBar = () => {
     >
       <div className="flex flex-1 flex-col gap-6">
         {sidebarLinks.map((item) => {
+          const route =
+            item.route === '/profile' && !!userId
+              ? `${item.route}/${userId}`
+              : item.route;
+
           return (
             <NavLink
               imgURL={item.imgURL}
               label={item.label}
-              route={item.route}
+              route={route}
               key={item.route}
             />
           );
