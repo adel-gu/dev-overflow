@@ -79,3 +79,20 @@ export async function getQuestionsByTagId(params: GetQuestionsByTagIdParams) {
     throw error;
   }
 }
+
+export async function getHotTags() {
+  try {
+    connectToDatabase();
+
+    const hotTags = await Tag.aggregate([
+      { $project: { name: 1, numberOfQuestions: { $size: '$question' } } },
+      { $sort: { numberOfQuestions: -1 } },
+      { $limit: 5 },
+    ]);
+    console.log('Tags: ', hotTags);
+    return hotTags;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
