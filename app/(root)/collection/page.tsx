@@ -6,13 +6,17 @@ import NoResults from '@/components/shared/NoResults';
 import QuestionCard from '@/components/cards/QuestionCard';
 import { getSavedQuestions } from '@/lib/actions/user.action';
 import { redirect } from 'next/navigation';
+import { SearchParamsProps } from '@/types';
 
-const page = async () => {
+const page = async ({ searchParams }: SearchParamsProps) => {
   const { userId: clerkId } = await auth();
 
   if (!clerkId) redirect('/');
 
-  const { questions } = await getSavedQuestions({ clerkId });
+  const { questions } = await getSavedQuestions({
+    clerkId,
+    searchQuery: searchParams.q,
+  });
 
   return (
     <>
@@ -20,7 +24,7 @@ const page = async () => {
 
       <div className="mt-11 flex justify-between gap-5 max-sm:flex-col sm:items-center">
         <LocalSearch
-          route="/"
+          route="/collection"
           iconPosition="left"
           imgSrc="/assets/icons/search.svg"
           placeholder="Search for questions"

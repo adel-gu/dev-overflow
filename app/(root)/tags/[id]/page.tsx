@@ -2,10 +2,14 @@ import QuestionCard from '@/components/cards/QuestionCard';
 import NoResults from '@/components/shared/NoResults';
 import LocalSearch from '@/components/shared/Search/LocalSearch';
 import { getQuestionsByTagId } from '@/lib/actions/tag.actions';
+import { URLProps } from '@/types';
 
-const page = async ({ params }: { params: Promise<{ id: string }> }) => {
-  const tagId = (await params).id;
-  const results = await getQuestionsByTagId({ tagId });
+const page = async ({ params, searchParams }: URLProps) => {
+  const tagId = params.id;
+  const results = await getQuestionsByTagId({
+    tagId,
+    searchQuery: searchParams.q,
+  });
 
   return (
     <>
@@ -13,7 +17,7 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
 
       <div className="mt-11 w-full">
         <LocalSearch
-          route="/"
+          route={`/tags/${tagId}`}
           iconPosition="left"
           imgSrc="/assets/icons/search.svg"
           placeholder="Search tag questions"
