@@ -3,10 +3,11 @@ import NoResults from '@/components/shared/NoResults';
 import LocalSearch from '@/components/shared/Search/LocalSearch';
 import { TagFilters } from '@/constants/filters';
 import { getAllTags } from '@/lib/actions/tag.actions';
+import { SearchParamsProps } from '@/types';
 import Link from 'next/link';
 
-const page = async () => {
-  const result = await getAllTags({});
+const page = async ({ searchParams }: SearchParamsProps) => {
+  const result = await getAllTags({ searchQuery: searchParams.q });
 
   return (
     <>
@@ -16,7 +17,7 @@ const page = async () => {
 
       <div className="mt-11 flex justify-between gap-5 max-sm:flex-col sm:items-center">
         <LocalSearch
-          route="/"
+          route="/tags"
           iconPosition="left"
           imgSrc="/assets/icons/search.svg"
           placeholder="Search by tag name..."
