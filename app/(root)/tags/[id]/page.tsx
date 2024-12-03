@@ -2,13 +2,20 @@ import QuestionCard from '@/components/cards/QuestionCard';
 import NoResults from '@/components/shared/NoResults';
 import LocalSearch from '@/components/shared/Search/LocalSearch';
 import { getQuestionsByTagId } from '@/lib/actions/tag.actions';
-import { URLProps } from '@/types';
 
-const page = async ({ params, searchParams }: URLProps) => {
-  const tagId = params.id;
+const page = async ({
+  params,
+  searchParams,
+}: {
+  params: Promise<{
+    id: string;
+  }>;
+  searchParams: Promise<{ [key: string]: string | undefined }>;
+}) => {
+  const tagId = (await params).id;
   const results = await getQuestionsByTagId({
     tagId,
-    searchQuery: searchParams.q,
+    searchQuery: (await searchParams).q,
   });
 
   return (

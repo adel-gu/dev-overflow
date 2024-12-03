@@ -6,16 +6,19 @@ import NoResults from '@/components/shared/NoResults';
 import QuestionCard from '@/components/cards/QuestionCard';
 import { getSavedQuestions } from '@/lib/actions/user.action';
 import { redirect } from 'next/navigation';
-import { SearchParamsProps } from '@/types';
 
-const page = async ({ searchParams }: SearchParamsProps) => {
+const page = async ({
+  searchParams,
+}: {
+  searchParams: Promise<{ [key: string]: string | undefined }>;
+}) => {
   const { userId: clerkId } = await auth();
 
   if (!clerkId) redirect('/');
 
   const { questions } = await getSavedQuestions({
     clerkId,
-    searchQuery: searchParams.q,
+    searchQuery: (await searchParams)?.q,
   });
 
   return (
