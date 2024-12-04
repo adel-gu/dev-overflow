@@ -13,15 +13,19 @@ import AnswersTab from '@/components/shared/AnswersTab';
 
 const page = async ({
   params,
+  searchParams,
 }: {
   params: Promise<{
     id: string;
-    searchParams: { [key: string]: string | undefined };
   }>;
+  searchParams: Promise<{ [key: string]: string | undefined }>;
 }) => {
   const { userId: clerkId } = await auth();
   const userId = (await params).id;
-  const searchParams = (await params).searchParams;
+  const page = (await searchParams).page
+    ? Number((await searchParams).page)
+    : 1;
+
   const { user, totalQuestions, totalAnswers } = await getUserInfo({ userId });
 
   return (
@@ -97,18 +101,10 @@ const page = async ({
             </TabsTrigger>
           </TabsList>
           <TabsContent value="top-posts" className="flex flex-col gap-4">
-            <QuestionsTab
-              searchParams={searchParams}
-              userId={user._id}
-              clerkId={clerkId!}
-            />
+            <QuestionsTab page={page} userId={user._id} clerkId={clerkId!} />
           </TabsContent>
           <TabsContent value="answers" className="flex flex-col gap-4">
-            <AnswersTab
-              searchParams={searchParams}
-              userId={user._id}
-              clerkId={clerkId!}
-            />
+            <AnswersTab page={page} userId={user._id} clerkId={clerkId!} />
           </TabsContent>
         </Tabs>
       </div>

@@ -37,7 +37,7 @@ export async function getAllTags(params: GetAllTagsParams) {
   try {
     connectToDatabase();
 
-    const { searchQuery, filter } = params;
+    const { searchQuery, filter, page = 1, pageSize = 10 } = params;
 
     const query: FilterQuery<typeof Tag> = searchQuery
       ? {
@@ -65,9 +65,16 @@ export async function getAllTags(params: GetAllTagsParams) {
         break;
     }
 
-    const tags = await Tag.find(query).sort(sortOptions);
+    const skip = (page - 1) * pageSize;
 
-    return { tags };
+    const tags = await Tag.find(query)
+      .sort(sortOptions)
+      .skip(skip)
+      .limit(pageSize);
+
+    const totalTags = await Tag.countDocuments(query);
+
+    return { tags, totalPages: Math.ceil(totalTags / pageSize) };
   } catch (error) {
     console.log(error);
     throw error;
@@ -80,28 +87,36 @@ export async function getQuestionsByTagId(params: GetQuestionsByTagIdParams) {
 
     const tagFilter: FilterQuery<ITag> = { _id: tagId };
 
-    const tag = await Tag.findOne(tagFilter).populate({
-      path: 'question',
-      model: Question,
-      match: searchQuery
-        ? { title: { $regex: searchQuery, $options: 'i' } }
-        : {},
-      options: {
-        sort: { createdAt: -1 },
-      },
-      populate: [
-        { path: 'tags', model: Tag },
-        { path: 'author', model: User },
-      ],
-    });
+    const skip = (page - 1) * pageSize;
+
+    const tag = await Tag.findOne(tagFilter);
 
     if (!tag) {
       throw new Error('Tag not found');
     }
 
-    const questions = tag.question;
+    const questions = await Question.find({
+      tags: tag._id,
+      ...(searchQuery ? { title: { $regex: searchQuery, $options: 'i' } } : {}),
+    })
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(pageSize)
+      .populate([
+        { path: 'tags', model: Tag },
+        { path: 'author', model: User },
+      ]);
 
-    return { tagTitle: tag.name, questions };
+    const totalQuestions = await Question.countDocuments({
+      tags: tag._id,
+      ...(searchQuery ? { title: { $regex: searchQuery, $options: 'i' } } : {}),
+    });
+
+    return {
+      tagTitle: tag.name,
+      questions,
+      totalPages: Math.ceil(totalQuestions / pageSize),
+    };
   } catch (error) {
     console.log(error);
     throw error;

@@ -6,6 +6,7 @@ import NoResults from '@/components/shared/NoResults';
 import QuestionCard from '@/components/cards/QuestionCard';
 import { getSavedQuestions } from '@/lib/actions/user.action';
 import { redirect } from 'next/navigation';
+import PaginationComp from '@/components/shared/PaginationComp';
 
 const page = async ({
   searchParams,
@@ -16,10 +17,15 @@ const page = async ({
 
   if (!clerkId) redirect('/');
 
-  const { questions } = await getSavedQuestions({
+  const page = (await searchParams).page
+    ? Number((await searchParams).page)
+    : 1;
+
+  const { questions, totalPages } = await getSavedQuestions({
     clerkId,
     searchQuery: (await searchParams)?.q,
     filter: (await searchParams)?.filter,
+    page,
   });
 
   return (
@@ -67,6 +73,10 @@ const page = async ({
             linkTitle="Ask a Question"
           />
         )}
+      </div>
+
+      <div className="mt-10">
+        <PaginationComp page={page} totalPageCount={totalPages} />
       </div>
     </>
   );

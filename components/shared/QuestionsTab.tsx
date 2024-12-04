@@ -1,18 +1,20 @@
 import { getUserQuestions } from '@/lib/actions/user.action';
-import { SearchParamsProps } from '@/types';
-import QuestionCard from '../cards/QuestionCard';
 
-interface QuestionsTabProps extends SearchParamsProps {
+import QuestionCard from '../cards/QuestionCard';
+import page from '@/app/(root)/(home)/page';
+import PaginationComp from './PaginationComp';
+
+interface QuestionsTabProps {
+  page: number;
   userId: string;
   clerkId: string;
 }
 
-const QuestionsTab = async ({
-  searchParams,
-  userId,
-  clerkId,
-}: QuestionsTabProps) => {
-  const { totalQuestions, questions } = await getUserQuestions({ userId });
+const QuestionsTab = async ({ page, userId, clerkId }: QuestionsTabProps) => {
+  const { questions, totalPages } = await getUserQuestions({
+    userId,
+    page,
+  });
   return (
     <>
       {questions.map((question) => (
@@ -29,6 +31,10 @@ const QuestionsTab = async ({
           createdAt={question.createdAt}
         />
       ))}
+
+      <div className="mt-10">
+        <PaginationComp page={page} totalPageCount={totalPages} />
+      </div>
     </>
   );
 };
