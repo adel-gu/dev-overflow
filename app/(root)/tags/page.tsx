@@ -10,7 +10,10 @@ const page = async ({
 }: {
   searchParams: Promise<{ [key: string]: string | undefined }>;
 }) => {
-  const result = await getAllTags({ searchQuery: (await searchParams).q });
+  const result = await getAllTags({
+    searchQuery: (await searchParams).q,
+    filter: (await searchParams).filter,
+  });
 
   return (
     <>
@@ -29,7 +32,8 @@ const page = async ({
         <Filter
           filters={TagFilters}
           otherClasses="min-h-[56px] w-[200px]"
-          containerClasses="hidden max-md:flex"
+          route="/tags"
+          // containerClasses="hidden max-md:flex"
         />
       </div>
 

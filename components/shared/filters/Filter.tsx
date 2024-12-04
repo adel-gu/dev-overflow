@@ -1,9 +1,8 @@
 'use client';
 
-import * as React from 'react';
 import { Check, ChevronsUpDown } from 'lucide-react';
 
-import { cn } from '@/lib/utils';
+import { cn, formUrlQuery, removeKeysFromQuery } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import {
   Command,
@@ -16,6 +15,8 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
 interface FilterProps {
   filters: {
@@ -24,11 +25,43 @@ interface FilterProps {
   }[];
   otherClasses?: string;
   containerClasses?: string;
+  route?: string;
 }
 
-const Filter = ({ filters, containerClasses, otherClasses }: FilterProps) => {
-  const [open, setOpen] = React.useState(false);
-  const [value, setValue] = React.useState('');
+const Filter = ({
+  filters,
+  containerClasses,
+  otherClasses,
+  route,
+}: FilterProps) => {
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const [open, setOpen] = useState(false);
+
+  const filter = searchParams.get('filter');
+
+  const [value, setValue] = useState(filter ?? '');
+
+  useEffect(() => {
+    if (value) {
+      const newUrl = formUrlQuery({
+        params: searchParams.toString(),
+        key: 'filter',
+        value,
+      });
+
+      router.push(newUrl, { scroll: false });
+    } else {
+      if (pathname === route) {
+        const newUrl = removeKeysFromQuery({
+          params: searchParams.toString(),
+          keys: ['filter'],
+        });
+        router.push(newUrl, { scroll: false });
+      }
+    }
+  }, [value, searchParams, filter, router, pathname, route]);
 
   return (
     <Popover open={open} onOpenChange={setOpen}>

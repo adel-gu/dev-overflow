@@ -15,6 +15,7 @@ const page = async ({
 }) => {
   const results = await getQuestions({
     searchQuery: (await searchParams)?.q,
+    filter: (await searchParams).filter,
   });
 
   return (

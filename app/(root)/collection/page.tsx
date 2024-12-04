@@ -19,6 +19,7 @@ const page = async ({
   const { questions } = await getSavedQuestions({
     clerkId,
     searchQuery: (await searchParams)?.q,
+    filter: (await searchParams)?.filter,
   });
 
   return (
@@ -36,6 +37,7 @@ const page = async ({
         <Filter
           filters={QuestionFilters}
           otherClasses="min-h-[56px] w-[200px]"
+          route="/collection"
         />
       </div>
 
