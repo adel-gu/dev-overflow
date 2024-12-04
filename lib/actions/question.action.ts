@@ -21,7 +21,7 @@ export async function getQuestions(params: GetQuestionsParams) {
   try {
     await connectToDatabase();
 
-    const { searchQuery, filter, page = 1, pageSize = 2 } = params;
+    const { searchQuery, filter, page = 1, pageSize = 10 } = params;
 
     const query: FilterQuery<typeof Question> = {};
 
@@ -65,8 +65,6 @@ export async function getQuestions(params: GetQuestionsParams) {
 
     return {
       questions,
-      page,
-      totalQuestions,
       totalPages: Math.ceil(totalQuestions / pageSize),
     };
   } catch (error) {

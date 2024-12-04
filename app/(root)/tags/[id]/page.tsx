@@ -1,5 +1,6 @@
 import QuestionCard from '@/components/cards/QuestionCard';
 import NoResults from '@/components/shared/NoResults';
+import PaginationComp from '@/components/shared/PaginationComp';
 import LocalSearch from '@/components/shared/Search/LocalSearch';
 import { getQuestionsByTagId } from '@/lib/actions/tag.actions';
 
@@ -13,9 +14,14 @@ const page = async ({
   searchParams: Promise<{ [key: string]: string | undefined }>;
 }) => {
   const tagId = (await params).id;
+  const page = (await searchParams).page
+    ? Number((await searchParams).page)
+    : 1;
+
   const results = await getQuestionsByTagId({
     tagId,
     searchQuery: (await searchParams).q,
+    page,
   });
 
   return (
@@ -58,6 +64,10 @@ const page = async ({
             linkTitle="Ask a Question"
           />
         )}
+      </div>
+
+      <div className="mt-10">
+        <PaginationComp page={page} totalPageCount={results.totalPages} />
       </div>
     </>
   );

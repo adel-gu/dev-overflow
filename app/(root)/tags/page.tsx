@@ -1,5 +1,6 @@
 import Filter from '@/components/shared/filters/Filter';
 import NoResults from '@/components/shared/NoResults';
+import PaginationComp from '@/components/shared/PaginationComp';
 import LocalSearch from '@/components/shared/Search/LocalSearch';
 import { TagFilters } from '@/constants/filters';
 import { getAllTags } from '@/lib/actions/tag.actions';
@@ -10,9 +11,14 @@ const page = async ({
 }: {
   searchParams: Promise<{ [key: string]: string | undefined }>;
 }) => {
-  const result = await getAllTags({
+  const page = (await searchParams).page
+    ? Number((await searchParams).page)
+    : 1;
+
+  const { tags, totalPages } = await getAllTags({
     searchQuery: (await searchParams).q,
     filter: (await searchParams).filter,
+    page,
   });
 
   return (
@@ -33,14 +39,13 @@ const page = async ({
           filters={TagFilters}
           otherClasses="min-h-[56px] w-[200px]"
           route="/tags"
-          // containerClasses="hidden max-md:flex"
         />
       </div>
 
       <section className="mt-12 flex flex-wrap gap-4">
         {/* get all users */}
-        {result.tags.length > 0 ? (
-          result.tags.map((tag) => (
+        {tags.length > 0 ? (
+          tags.map((tag) => (
             <Link
               href={`/tags/${tag._id}`}
               className="shadow-light100_darknone"
@@ -70,6 +75,10 @@ const page = async ({
           />
         )}
       </section>
+
+      <div className="mt-10">
+        <PaginationComp page={page} totalPageCount={totalPages} />
+      </div>
     </>
   );
 };
