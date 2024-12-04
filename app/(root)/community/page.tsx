@@ -12,6 +12,7 @@ const page = async ({
 }) => {
   const result = await getAllUsers({
     searchQuery: (await searchParams)?.q,
+    filter: (await searchParams)?.filter,
   });
 
   return (
@@ -31,7 +32,8 @@ const page = async ({
         <Filter
           filters={UserFilters}
           otherClasses="min-h-[56px] w-[200px]"
-          containerClasses="hidden max-md:flex"
+          // containerClasses="hidden max-md:flex"
+          route="/community"
         />
       </div>
 

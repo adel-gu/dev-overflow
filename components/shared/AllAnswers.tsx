@@ -11,23 +11,32 @@ interface AllAnswersProps {
   questionId: string;
   userId: string;
   totalAnswers: number;
-  page?: number;
-  filter?: number;
+  page?: string;
+  filter?: string;
 }
 
 const AllAnswers = async ({
   questionId,
   userId,
   totalAnswers,
+  filter,
 }: AllAnswersProps) => {
-  const { answers } = await getAnswers({ questionId: JSON.parse(questionId) });
+  const { answers } = await getAnswers({
+    questionId: JSON.parse(questionId),
+    sortBy: filter,
+  });
 
   return (
     <div className="mt-11 mb-8">
       <div className="flex items-center justify-between">
         <h3 className="primary-text-gradient">{totalAnswers} Answers</h3>
 
-        {answers.length > 0 && <Filter filters={AnswerFilters} />}
+        {answers.length > 0 && (
+          <Filter
+            filters={AnswerFilters}
+            route={`/question/${JSON.parse(questionId)}`}
+          />
+        )}
       </div>
 
       <div>
