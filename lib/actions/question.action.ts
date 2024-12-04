@@ -21,7 +21,7 @@ export async function getQuestions(params: GetQuestionsParams) {
   try {
     await connectToDatabase();
 
-    const { searchQuery, filter } = params;
+    const { searchQuery, filter, page = 1, pageSize = 2 } = params;
 
     const query: FilterQuery<typeof Question> = {};
 
@@ -48,15 +48,27 @@ export async function getQuestions(params: GetQuestionsParams) {
         break;
 
       default:
+        sortOptions = { createdAt: -1 };
         break;
     }
+
+    const skip = (page - 1) * pageSize;
 
     const questions = await Question.find(query)
       .populate({ path: 'tags', model: Tag })
       .populate({ path: 'author', model: User })
-      .sort(sortOptions);
+      .sort(sortOptions)
+      .skip(skip)
+      .limit(pageSize);
 
-    return { questions };
+    const totalQuestions = await Question.countDocuments(query);
+
+    return {
+      questions,
+      page,
+      totalQuestions,
+      totalPages: Math.ceil(totalQuestions / pageSize),
+    };
   } catch (error) {
     console.log('Error fetching all questions: ', error);
     throw error;
