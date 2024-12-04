@@ -7,15 +7,21 @@ import HomeFilters from '@/components/home/HomeFilters';
 import NoResults from '@/components/shared/NoResults';
 import QuestionCard from '@/components/cards/QuestionCard';
 import { getQuestions } from '@/lib/actions/question.action';
+import PaginationComp from '@/components/shared/PaginationComp';
 
 const page = async ({
   searchParams,
 }: {
   searchParams: Promise<{ [key: string]: string | undefined }>;
 }) => {
-  const results = await getQuestions({
+  const page = (await searchParams).page
+    ? Number((await searchParams).page)
+    : 1;
+
+  const { questions, totalPages } = await getQuestions({
     searchQuery: (await searchParams)?.q,
     filter: (await searchParams).filter,
+    page,
   });
 
   return (
@@ -49,8 +55,8 @@ const page = async ({
 
       {/* Questions */}
       <div className="mt-10 flex w-full flex-col gap-6">
-        {results?.questions.length > 0 ? (
-          results?.questions.map((question) => (
+        {questions?.length > 0 ? (
+          questions?.map((question) => (
             <QuestionCard
               key={question._id}
               id={question._id}
@@ -73,6 +79,9 @@ const page = async ({
             linkTitle="Ask a Question"
           />
         )}
+      </div>
+      <div className="mt-10">
+        <PaginationComp page={page} totalPageCount={totalPages} />
       </div>
     </>
   );
