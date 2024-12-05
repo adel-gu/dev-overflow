@@ -29,6 +29,7 @@ const Answer = ({ question, questionId, authorId }: AnswerProps) => {
   const { mode } = useTheme();
   const editorRef = useRef(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmittingAI, setIsSubmittingAI] = useState(false);
   const router = useRouter();
 
   const form = useForm<z.infer<typeof AnswerSchema>>({
@@ -62,6 +63,31 @@ const Answer = ({ question, questionId, authorId }: AnswerProps) => {
     }
   }
 
+  const generateAIAnswer = async () => {
+    if (!authorId) return;
+
+    setIsSubmittingAI(true);
+
+    try {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/api/chatgpt`,
+        {
+          method: 'POST',
+          body: JSON.stringify({ question }),
+        },
+      );
+
+      const aiAnswer = await response.json();
+
+      alert(aiAnswer.reply);
+    } catch (error) {
+      console.log(error);
+      throw error;
+    } finally {
+      setIsSubmittingAI(false);
+    }
+  };
+
   return (
     <div>
       <div className="flex flex-col justify-between gap-5 sm:flex-row sm:items-center sm:gap-2">
@@ -71,7 +97,7 @@ const Answer = ({ question, questionId, authorId }: AnswerProps) => {
 
         <Button
           className="btn light-border-2 gap-1.5 rounded-md px-4 py-2.5 text-primary-500 shadow-none"
-          onClick={() => {}}
+          onClick={() => alert('Coming soon...')}
         >
           <Image
             src="/assets/icons/stars.svg"
