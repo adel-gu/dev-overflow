@@ -26,7 +26,9 @@ const page = async ({
     ? Number((await searchParams).page)
     : 1;
 
-  const { user, totalQuestions, totalAnswers } = await getUserInfo({ userId });
+  const { user, totalQuestions, totalAnswers, badgeCounts } = await getUserInfo(
+    { userId },
+  );
 
   return (
     <>
@@ -89,7 +91,11 @@ const page = async ({
           </SignedIn>
         </div>
       </div>
-      <Stats totalQuestions={totalQuestions} totalAnswers={totalAnswers} />
+      <Stats
+        totalQuestions={totalQuestions}
+        totalAnswers={totalAnswers}
+        badges={badgeCounts}
+      />
       <div className="mt-10 flex gap-10">
         <Tabs defaultValue="top-posts" className="w-full">
           <TabsList className="background-light800_dark-400 min-h-[42px] p-1">
