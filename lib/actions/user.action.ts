@@ -106,11 +106,10 @@ export async function getAllUsers(params: GetAllUsersParams) {
         sortOptions = { joinedAt: 1 };
         break;
       case 'top_contributors':
-        sortOptions = { joinedAt: 1 };
-        break;
-
-      default:
         sortOptions = { reputation: -1 };
+        break;
+      default:
+        sortOptions = { joinedAt: -1 };
         break;
     }
 
@@ -262,7 +261,7 @@ export async function getUserQuestions(params: GetUserStatsParams) {
       .populate('author', '_id clerkId name picture')
       .skip(skip)
       .limit(pageSize)
-      .sort({ views: -1, upvotes: -1 });
+      .sort({ createdAt: -1, views: -1, upvotes: -1 });
 
     return {
       totalQuestions,
