@@ -4,9 +4,9 @@ import { useTheme } from '@/context/Theme';
 import Image from 'next/image';
 import Link from 'next/link';
 
-type BrandType = {
-  screen?: string;
-};
+// type BrandType = {
+//   screen?: string;
+// };
 
 const Brand = () => {
   const { mode } = useTheme();

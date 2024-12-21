@@ -85,7 +85,7 @@ export async function createQuestion(params: CreateQuestionParams) {
       author,
     });
 
-    let tagsDocument = [];
+    const tagsDocument = [];
 
     for (const tag of tags) {
       const existingTag = await Tag.findOneAndUpdate(

@@ -11,7 +11,7 @@ interface INoResults {
 
 const NoResults = ({ title, description, link, linkTitle }: INoResults) => {
   return (
-    <div className="mt-10 w-full flex-col-center">
+    <div className="flex-col-center mt-10 w-full">
       <Image
         src="/assets/images/light-illustration.png"
         alt="No result illustration"

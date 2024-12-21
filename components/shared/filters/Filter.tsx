@@ -71,21 +71,21 @@ const Filter = ({
             variant="outline"
             role="combobox"
             aria-expanded={open}
-            className={`justify-between body-regular light-border background-light800_dark300 text-dark500_light700 border px-5 py-2.5 ${otherClasses}`}
+            className={`body-regular light-border background-light800_dark300 text-dark500_light700 justify-between border px-5 py-2.5 ${otherClasses}`}
           >
             {value
               ? filters.find((filter) => filter.value === value)?.name
               : 'Select a Filter...'}
-            <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+            <ChevronsUpDown className="ml-2 size-4 shrink-0 opacity-50" />
           </Button>
         </PopoverTrigger>
         <PopoverContent
-          className={`p-0 body-regular light-border background-light800_dark300 text-dark500_light700 border ${otherClasses}`}
+          className={`body-regular light-border background-light800_dark300 text-dark500_light700 border p-0 ${otherClasses}`}
         >
           <Command>
             <CommandList>
               <CommandGroup>
-                {filters.map((filter, index) => (
+                {filters.map((filter) => (
                   <CommandItem
                     key={filter.value}
                     value={filter.value}

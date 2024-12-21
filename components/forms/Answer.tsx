@@ -14,7 +14,7 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { AnswerSchema } from '@/lib/validations';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import { useTheme } from '@/context/Theme';
 import { createAnswer } from '@/lib/actions/answer.action';
 
@@ -24,12 +24,13 @@ interface AnswerProps {
   authorId: string;
 }
 
-const Answer = ({ question, questionId, authorId }: AnswerProps) => {
+const Answer = ({ questionId, authorId }: AnswerProps) => {
   const pathname = usePathname();
   const { mode } = useTheme();
   const editorRef = useRef(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const router = useRouter();
+  // const [isSubmittingAI, setIsSubmittingAI] = useState(false);
+  // const router = useRouter();
 
   const form = useForm<z.infer<typeof AnswerSchema>>({
     resolver: zodResolver(AnswerSchema),
@@ -51,6 +52,7 @@ const Answer = ({ question, questionId, authorId }: AnswerProps) => {
 
       form.reset();
       if (editorRef.current) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const editor = editorRef.current as any;
 
         editor.setContent('');
@@ -61,6 +63,31 @@ const Answer = ({ question, questionId, authorId }: AnswerProps) => {
       setIsSubmitting(false);
     }
   }
+
+  // const generateAIAnswer = async () => {
+  //   if (!authorId) return;
+
+  //   setIsSubmittingAI(true);
+
+  //   try {
+  //     const response = await fetch(
+  //       `${process.env.NEXT_PUBLIC_SERVER_URL}/api/chatgpt`,
+  //       {
+  //         method: 'POST',
+  //         body: JSON.stringify({ question }),
+  //       },
+  //     );
+
+  //     const aiAnswer = await response.json();
+
+  //     alert(aiAnswer.reply);
+  //   } catch (error) {
+  //     console.log(error);
+  //     throw error;
+  //   } finally {
+  //     setIsSubmittingAI(false);
+  //   }
+  // };
 
   return (
     <div>

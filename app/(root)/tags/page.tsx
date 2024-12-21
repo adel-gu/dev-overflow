@@ -47,6 +47,7 @@ const page = async ({
         {tags.length > 0 ? (
           tags.map((tag) => (
             <Link
+              key={tag._id}
               href={`/tags/${tag._id}`}
               className="shadow-light100_darknone"
             >

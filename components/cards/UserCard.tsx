@@ -21,7 +21,7 @@ const UserCard = async ({ user }: UserCardProps) => {
       href={`/profile/${user.clerkId}`}
       className="shadow-light100_darknone w-full max-xs:min-w-full xs:w-[260px]"
     >
-      <article className="background-light900_dark200 light-border w-full flex-col-center rounded-2xl border p-8">
+      <article className="background-light900_dark200 light-border flex-col-center w-full rounded-2xl border p-8">
         <Image
           src={user.picture}
           alt={user.name}

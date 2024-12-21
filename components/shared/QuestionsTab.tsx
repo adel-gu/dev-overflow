@@ -1,7 +1,6 @@
 import { getUserQuestions } from '@/lib/actions/user.action';
 
 import QuestionCard from '../cards/QuestionCard';
-import page from '@/app/(root)/(home)/page';
 import PaginationComp from './PaginationComp';
 
 interface QuestionsTabProps {

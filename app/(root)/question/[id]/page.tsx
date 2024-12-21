@@ -91,6 +91,7 @@ const page = async ({
       <ParseHTML data={question.content} />
 
       <div className="mt-8 flex flex-wrap gap-2">
+        {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
         {question.tags.map((tag: any) => (
           <TagCard
             key={tag._id}

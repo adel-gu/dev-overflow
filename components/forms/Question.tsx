@@ -72,6 +72,8 @@ const Question = ({ mongoUserId, type, questionDetails }: QuestionProps) => {
         router.push('/');
       }
     } catch (error) {
+      console.log(error);
+      throw error;
     } finally {
       setIsSubmitting(false);
     }
@@ -79,6 +81,7 @@ const Question = ({ mongoUserId, type, questionDetails }: QuestionProps) => {
 
   function handleTagKeyDown(
     e: React.KeyboardEvent<HTMLInputElement>,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     field: any,
   ) {
     if (e.code === 'Enter' && field.name === 'tags') {
@@ -103,6 +106,7 @@ const Question = ({ mongoUserId, type, questionDetails }: QuestionProps) => {
     }
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   function handleRemoveTag(tag: string, field: any) {
     let values: string[];
     [tag, ...values] = [...field.value];

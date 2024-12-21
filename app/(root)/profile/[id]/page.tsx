@@ -83,7 +83,7 @@ const page = async ({
           <SignedIn>
             {clerkId === user.clerkId && (
               <Link href="/profile/edit">
-                <Button className="paragraph-medium btn-secondary text-dark300_light900 mint-h-[46px] min-w-[175px] px-4 py-3">
+                <Button className="paragraph-medium btn-secondary text-dark300_light900 min-h-[46px] min-w-[175px] px-4 py-3">
                   Edit Profile
                 </Button>
               </Link>
@@ -98,7 +98,7 @@ const page = async ({
       />
       <div className="mt-10 flex gap-10">
         <Tabs defaultValue="top-posts" className="w-full">
-          <TabsList className="background-light800_dark-400 min-h-[42px] p-1">
+          <TabsList className="background-light800_dark400 min-h-[42px] p-1">
             <TabsTrigger value="top-posts" className="tab">
               Top Posts
             </TabsTrigger>

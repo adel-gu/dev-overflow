@@ -50,7 +50,7 @@ const page = async ({
         ) : (
           <div className="paragraph-regular text-dark200_light800 mx-auto max-w-4xl text-center">
             <p>No users yet</p>
-            <Link href="/sign-up" className="mt-1 font-bold text-accent-blue">
+            <Link href="/sign-up" className="mt-1 font-bold text-blue-300">
               Join to be the first
             </Link>
           </div>

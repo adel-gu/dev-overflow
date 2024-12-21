@@ -50,6 +50,7 @@ const page = async ({
       {/* Questions */}
       <div className="mt-10 flex w-full flex-col gap-6">
         {questions?.length > 0 ? (
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           questions?.map((question: any) => (
             <QuestionCard
               key={question._id}
