@@ -71,7 +71,7 @@ relative flex min-h-[56px] grow items-center gap-1 rounded-xl px-4 ${
         placeholder={placeholder}
         value={search}
         onChange={(e) => setSearch(e.target.value)}
-        className="paragraph-regular no-focus placeholder bg-transparent border-none shadow-none outline-none"
+        className="paragraph-regular no-focus placeholder border-none bg-transparent shadow-none outline-none"
       />
     </div>
   );

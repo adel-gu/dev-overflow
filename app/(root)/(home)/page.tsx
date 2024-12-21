@@ -8,6 +8,7 @@ import NoResults from '@/components/shared/NoResults';
 import QuestionCard from '@/components/cards/QuestionCard';
 import { getQuestions } from '@/lib/actions/question.action';
 import PaginationComp from '@/components/shared/PaginationComp';
+import { Suspense } from 'react';
 
 const page = async ({
   searchParams,
@@ -37,21 +38,26 @@ const page = async ({
       </div>
 
       <div className="mt-11 flex justify-between gap-5 max-sm:flex-col sm:items-center">
-        <LocalSearch
-          route="/"
-          iconPosition="left"
-          imgSrc="/assets/icons/search.svg"
-          placeholder="Search for questions"
-          otherClasses="flex-1"
-        />
-        <Filter
-          filters={HomePageFilters}
-          otherClasses="min-h-[56px] w-[200px]"
-          containerClasses="hidden max-md:flex"
-        />
+        <Suspense>
+          <LocalSearch
+            route="/"
+            iconPosition="left"
+            imgSrc="/assets/icons/search.svg"
+            placeholder="Search for questions"
+            otherClasses="flex-1"
+          />
+        </Suspense>
+        <Suspense>
+          <Filter
+            filters={HomePageFilters}
+            otherClasses="min-h-[56px] w-[200px]"
+            containerClasses="hidden max-md:flex"
+          />
+        </Suspense>
       </div>
-
-      <HomeFilters />
+      <Suspense>
+        <HomeFilters />
+      </Suspense>
 
       {/* Questions */}
       <div className="mt-10 flex w-full flex-col gap-6">
