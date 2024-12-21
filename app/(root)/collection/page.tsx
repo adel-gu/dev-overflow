@@ -7,6 +7,7 @@ import QuestionCard from '@/components/cards/QuestionCard';
 import { getSavedQuestions } from '@/lib/actions/user.action';
 import { redirect } from 'next/navigation';
 import PaginationComp from '@/components/shared/PaginationComp';
+import { Suspense } from 'react';
 
 const page = async ({
   searchParams,
@@ -33,18 +34,22 @@ const page = async ({
       <h1 className="h1-bold text-dark100_light900">Saved Questions</h1>
 
       <div className="mt-11 flex justify-between gap-5 max-sm:flex-col sm:items-center">
-        <LocalSearch
-          route="/collection"
-          iconPosition="left"
-          imgSrc="/assets/icons/search.svg"
-          placeholder="Search for questions"
-          otherClasses="flex-1"
-        />
-        <Filter
-          filters={QuestionFilters}
-          otherClasses="min-h-[56px] w-[200px]"
-          route="/collection"
-        />
+        <Suspense>
+          <LocalSearch
+            route="/collection"
+            iconPosition="left"
+            imgSrc="/assets/icons/search.svg"
+            placeholder="Search for questions"
+            otherClasses="flex-1"
+          />
+        </Suspense>
+        <Suspense>
+          <Filter
+            filters={QuestionFilters}
+            otherClasses="min-h-[56px] w-[200px]"
+            route="/collection"
+          />
+        </Suspense>
       </div>
 
       {/* Questions */}

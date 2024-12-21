@@ -3,6 +3,7 @@ import NoResults from '@/components/shared/NoResults';
 import PaginationComp from '@/components/shared/PaginationComp';
 import LocalSearch from '@/components/shared/Search/LocalSearch';
 import { getQuestionsByTagId } from '@/lib/actions/tag.actions';
+import { Suspense } from 'react';
 
 const page = async ({
   params,
@@ -29,13 +30,15 @@ const page = async ({
       <h1 className="h1-bold text-dark100_light900">{results.tagTitle}</h1>
 
       <div className="mt-11 w-full">
-        <LocalSearch
-          route={`/tags/${tagId}`}
-          iconPosition="left"
-          imgSrc="/assets/icons/search.svg"
-          placeholder="Search tag questions"
-          otherClasses="flex-1"
-        />
+        <Suspense>
+          <LocalSearch
+            route={`/tags/${tagId}`}
+            iconPosition="left"
+            imgSrc="/assets/icons/search.svg"
+            placeholder="Search tag questions"
+            otherClasses="flex-1"
+          />
+        </Suspense>
       </div>
 
       {/* Questions */}

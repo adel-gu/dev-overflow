@@ -5,6 +5,7 @@ import LocalSearch from '@/components/shared/Search/LocalSearch';
 import { UserFilters } from '@/constants/filters';
 import { getAllUsers } from '@/lib/actions/user.action';
 import Link from 'next/link';
+import { Suspense } from 'react';
 
 const page = async ({
   searchParams,
@@ -28,19 +29,23 @@ const page = async ({
       </div>
 
       <div className="mt-11 flex justify-between gap-5 max-sm:flex-col sm:items-center">
-        <LocalSearch
-          route="/community"
-          iconPosition="left"
-          imgSrc="/assets/icons/search.svg"
-          placeholder="Search for amazing minds"
-          otherClasses="flex-1"
-        />
-        <Filter
-          filters={UserFilters}
-          otherClasses="min-h-[56px] w-[200px]"
-          // containerClasses="hidden max-md:flex"
-          route="/community"
-        />
+        <Suspense>
+          <LocalSearch
+            route="/community"
+            iconPosition="left"
+            imgSrc="/assets/icons/search.svg"
+            placeholder="Search for amazing minds"
+            otherClasses="flex-1"
+          />
+        </Suspense>
+        <Suspense>
+          <Filter
+            filters={UserFilters}
+            otherClasses="min-h-[56px] w-[200px]"
+            // containerClasses="hidden max-md:flex"
+            route="/community"
+          />
+        </Suspense>
       </div>
 
       <section className="mt-12 flex flex-wrap gap-4">

@@ -5,6 +5,7 @@ import LocalSearch from '@/components/shared/Search/LocalSearch';
 import { TagFilters } from '@/constants/filters';
 import { getAllTags } from '@/lib/actions/tag.actions';
 import Link from 'next/link';
+import { Suspense } from 'react';
 
 const page = async ({
   searchParams,
@@ -28,18 +29,22 @@ const page = async ({
       </div>
 
       <div className="mt-11 flex justify-between gap-5 max-sm:flex-col sm:items-center">
-        <LocalSearch
-          route="/tags"
-          iconPosition="left"
-          imgSrc="/assets/icons/search.svg"
-          placeholder="Search by tag name..."
-          otherClasses="flex-1"
-        />
-        <Filter
-          filters={TagFilters}
-          otherClasses="min-h-[56px] w-[200px]"
-          route="/tags"
-        />
+        <Suspense>
+          <LocalSearch
+            route="/tags"
+            iconPosition="left"
+            imgSrc="/assets/icons/search.svg"
+            placeholder="Search by tag name..."
+            otherClasses="flex-1"
+          />
+        </Suspense>
+        <Suspense>
+          <Filter
+            filters={TagFilters}
+            otherClasses="min-h-[56px] w-[200px]"
+            route="/tags"
+          />
+        </Suspense>
       </div>
 
       <section className="mt-12 flex flex-wrap gap-4">
