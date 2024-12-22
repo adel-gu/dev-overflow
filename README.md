@@ -142,7 +142,7 @@ If you like this project, please give it a ⭐️!
 
 ## 🙏 Acknowledgements <a name="acknowledgements"></a>
 
-I would like to thank JSM for the figma design file.
+I want to thank [JSM](https://www.youtube.com/@javascriptmastery) for the Figma design file.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
